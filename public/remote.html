@@ -33,7 +33,6 @@
 
     function handleMove(event) {
         if (event.buttons === 1) {
-            console.log(event);
             socket.emit("move", {pageX: event.pageX, pageY:event.pageY});
         }
     }

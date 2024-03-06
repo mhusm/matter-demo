@@ -98,7 +98,6 @@
     });
 
     socket.on("move", (event) => {
-        console.log(event)
         const moveEvent = new MouseEvent("mousemove", {
             pointerId: 1,
             button: 0,
@@ -115,8 +114,6 @@
     });
 
     socket.on("down", (event) => {
-        console.log("down")
-        console.log(event)
         const downEvent = new MouseEvent("mousedown", {
             pointerId: 1,
             button: 0,
@@ -133,7 +130,6 @@
     });
 
     socket.on("up", (event) => {
-        console.log(event)
         const upEvent = new MouseEvent("mouseup", {
             pointerId: 1,
             button: 0,
