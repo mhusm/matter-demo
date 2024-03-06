@@ -5727,10 +5727,11 @@ var Common = __webpack_require__(0);
         };
         
         mouse.mousemove = function(event) { 
+            console.log(event)
             var position = Mouse._getRelativeMousePosition(event, mouse.element, mouse.pixelRatio),
                 touches = event.changedTouches;
-
-            if (touches) {
+             if (touches) {
+                console.log('touches')
                 mouse.button = 0;
                 event.preventDefault();
             }
@@ -5743,6 +5744,7 @@ var Common = __webpack_require__(0);
         };
         
         mouse.mousedown = function(event) {
+            console.log("mouse down")
             var position = Mouse._getRelativeMousePosition(event, mouse.element, mouse.pixelRatio),
                 touches = event.changedTouches;
 
@@ -5750,6 +5752,7 @@ var Common = __webpack_require__(0);
                 mouse.button = 0;
                 event.preventDefault();
             } else {
+                console.log(event.button)
                 mouse.button = event.button;
             }
 
@@ -5871,8 +5874,10 @@ var Common = __webpack_require__(0);
             x = touches[0].pageX - elementBounds.left - scrollX;
             y = touches[0].pageY - elementBounds.top - scrollY;
         } else {
+            console.log(event)
             x = event.pageX - elementBounds.left - scrollX;
             y = event.pageY - elementBounds.top - scrollY;
+            console.log(x, y)
         }
 
         return { 
@@ -8268,6 +8273,7 @@ var Bounds = __webpack_require__(1);
                         for (var j = body.parts.length > 1 ? 1 : 0; j < body.parts.length; j++) {
                             var part = body.parts[j];
                             if (Vertices.contains(part.vertices, mouse.position)) {
+                                console.log('startdrag');
                                 constraint.pointA = mouse.position;
                                 constraint.bodyB = mouseConstraint.body = body;
                                 constraint.pointB = { x: mouse.position.x - body.position.x, y: mouse.position.y - body.position.y };

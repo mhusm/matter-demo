@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Basic Socket template</title>
+    <style>
+    </style>
+    <script src="libs/matter.js"></script>
+</head>
+
+<body>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+
+
+    const socket = io();
+    // received a message from the server
+    socket.on("msg", msg => {
+        console.log(msg);
+    });
+
+    // received a message from another client
+    socket.on("client_msg", msg => {
+        console.log(msg);
+    });
+
+    socket.on("connect", () => {
+        socket.emit("client_msg", "Hello from the client " + socket.id);
+    });
+
+    function handleMove(event) {
+        if (event.buttons === 1) {
+            console.log(event);
+            socket.emit("move", {pageX: event.pageX, pageY:event.pageY});
+        }
+    }
+
+    function handleUp(event) {
+        socket.emit("up", {pageX: event.pageX, pageY:event.pageY});
+    }
+    
+    function handleDown(event) {
+        socket.emit("down", {pageX: event.pageX, pageY:event.pageY});
+    }
+    
+    window.addEventListener('pointermove', handleMove, false);
+    window.addEventListener('pointerdown', handleDown, false);
+    window.addEventListener('pointerup', handleUp, false);
+
+
+
+</script>
+
+</html>

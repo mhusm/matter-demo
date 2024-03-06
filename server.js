@@ -37,6 +37,16 @@ io.on('connection', (socket) => {
     socket.on('shake', () => {
         socket.broadcast.emit('shake');
     })
+
+    socket.on('move', (event) => {
+        socket.broadcast.emit('move', event);
+    })
+    socket.on('up', (event) => {
+        socket.broadcast.emit('up', event);
+    })
+    socket.on('down', (event) => {
+        socket.broadcast.emit('down', event);
+    })
 });
 
 

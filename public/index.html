@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Basic Socket template</title>
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
     </style>
     <script src="libs/matter.js"></script>
 </head>
@@ -23,7 +28,7 @@
         MouseConstraint = Matter.MouseConstraint,
         Mouse = Matter.Mouse,
         Body = Matter.Body;
-        Composites = Matter.Composites;
+    Composites = Matter.Composites;
 
     // create an engine
     var engine = Engine.create();
@@ -31,14 +36,20 @@
     // create a renderer
     var render = Render.create({
         element: document.body,
-        engine: engine
+        engine: engine,
+        options: {
+            width: window.innerWidth,
+            height: window.innerHeight,
+        }
     });
 
+
+
     // create  a ground
-    var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
+    var ground = Bodies.rectangle(200, 210, 810, 60, { isStatic: true });
 
     // create the balls
-    var stack = Composites.stack(100, 0, 10, 8, 10, 10, function(x, y) {
+    var stack = Composites.stack(100, 0, 10, 8, 10, 10, function (x, y) {
         return Bodies.circle(x, y, Common.random(15, 30));
     });
     // add all of the bodies to the world
@@ -69,7 +80,7 @@
     Runner.run(runner, engine);
 
 
-    
+
     const socket = io();
     // received a message from the server
     socket.on("msg", msg => {
@@ -81,9 +92,61 @@
         for (let i = 0; i < stack.bodies.length; i++) {
             let ball = stack.bodies[i];
             console.log(ball);
-            Body.applyForce( ball, {x: ball.position.x, y: ball.position.y}, {x: 0, y: -0.05});
+            Body.applyForce(ball, { x: ball.position.x, y: ball.position.y }, { x: 0, y: -0.05 });
         }
-//        stack.bodies[0]
+        //        stack.bodies[0]
+    });
+
+    socket.on("move", (event) => {
+        console.log(event)
+        const moveEvent = new MouseEvent("mousemove", {
+            pointerId: 1,
+            button: 0,
+            buttons: 1,
+            pageX: event.pageX,
+            pageY: event.pageY,
+            clientX: event.pageX,
+            clientY: event.pageY,
+            bubbles: true,
+            cancelable: true,
+            view: window
+        })
+        render.canvas.dispatchEvent(moveEvent);
+    });
+
+    socket.on("down", (event) => {
+        console.log("down")
+        console.log(event)
+        const downEvent = new MouseEvent("mousedown", {
+            pointerId: 1,
+            button: 0,
+            buttons: 1,
+            pageX: event.pageX,
+            pageY: event.pageY,
+            clientX: event.pageX,
+            clientY: event.pageY,
+            bubbles: true,
+            cancelable: true,
+            view: window
+        })
+        render.canvas.dispatchEvent(downEvent);
+    });
+
+    socket.on("up", (event) => {
+        console.log(event)
+        const upEvent = new MouseEvent("mouseup", {
+            pointerId: 1,
+            button: 0,
+            buttons: 1,
+            pageX: event.pageX,
+            pageY: event.pageY,
+            clientX: event.pageX,
+            clientY: event.pageY,
+            bubbles: true,
+            cancelable: true,
+            view: window
+        })
+        render.canvas.dispatchEvent(upEvent);
     });
 
     socket.on("connect", () => {
